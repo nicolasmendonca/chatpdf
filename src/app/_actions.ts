@@ -7,11 +7,6 @@ import { PineconeStore } from "langchain/vectorstores/pinecone";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { VectorDBQAChain } from "langchain/chains";
 import { OpenAI } from "langchain/llms/openai";
-// import { ChatOpenAI } from "langchain/chat_models/openai";
-// import { loadSummarizationChain } from "langchain/chains";
-// import { loadQAStuffChain, loadQAMapReduceChain } from "langchain/chains";
-// import { PromptTemplate } from "langchain/prompts";
-// import { LLMChain } from "langchain/chains";
 
 export async function handleUploadPdf(formData: FormData) {
   try {
@@ -89,26 +84,6 @@ export async function askQuestion(
     temperature: 1,
     verbose: true,
   });
-
-  // Approach 2: Build a custom template
-  //   const documents = await vectorStore.similaritySearch(question, 3);
-
-  //   const prompt = PromptTemplate.fromTemplate(`
-  // Given the following context, answer the question above. Be as extensive and detailed as you can with the response:
-
-  // ---
-  // Context:
-  // {context}
-  // ---
-
-  // Question: {question}
-  // Answer:`);
-
-  // const chain = new LLMChain({ llm: model, prompt });
-  // const response = await chain.call({
-  //   context: documents.map((doc) => doc.pageContent),
-  //   question,
-  // });
 
   // Initialize the chain
   const chain = VectorDBQAChain.fromLLM(model, vectorStore, {
