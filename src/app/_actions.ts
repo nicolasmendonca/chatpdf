@@ -6,7 +6,7 @@ import { PineconeClient } from "@pinecone-database/pinecone";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { VectorDBQAChain } from "langchain/chains";
-import { OpenAI } from "langchain/llms/openai";
+import { ChatOpenAI } from "langchain/chat_models/openai";
 
 export async function handleUploadPdf(formData: FormData) {
   try {
@@ -69,7 +69,7 @@ export async function askQuestion(
   // Initialize embeddings engine
   const embeddings = new OpenAIEmbeddings({
     openAIApiKey: process.env.OPENAI_API_KEY!,
-    batchSize: 3,
+    batchSize: 2,
   });
 
   // Initialize the store
@@ -78,16 +78,14 @@ export async function askQuestion(
   });
 
   // Initialize OpenAI LLM
-  const model = new OpenAI({
+  const model = new ChatOpenAI({
     openAIApiKey: process.env.OPENAI_API_KEY!,
-    modelName: "gpt-3.5-turbo",
-    temperature: 1,
     verbose: true,
   });
 
   // Initialize the chain
   const chain = VectorDBQAChain.fromLLM(model, vectorStore, {
-    k: 3,
+    k: 2,
     verbose: true,
   });
 
