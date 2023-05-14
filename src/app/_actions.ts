@@ -5,9 +5,9 @@ import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 import { PineconeClient } from "@pinecone-database/pinecone";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { ChatOpenAI } from "langchain/chat_models/openai";
 import { VectorDBQAChain } from "langchain/chains";
-// import { OpenAI } from "langchain/llms/openai";
+import { OpenAI } from "langchain/llms/openai";
+// import { ChatOpenAI } from "langchain/chat_models/openai";
 // import { loadSummarizationChain } from "langchain/chains";
 // import { loadQAStuffChain, loadQAMapReduceChain } from "langchain/chains";
 // import { PromptTemplate } from "langchain/prompts";
@@ -83,9 +83,9 @@ export async function askQuestion(
   });
 
   // Initialize OpenAI LLM
-  const model = new ChatOpenAI({
+  const model = new OpenAI({
     openAIApiKey: process.env.OPENAI_API_KEY!,
-    modelName: "gpt-4-32k",
+    modelName: "gpt-3.5-turbo",
     temperature: 1,
     verbose: true,
   });
@@ -104,11 +104,11 @@ export async function askQuestion(
   // Question: {question}
   // Answer:`);
 
-  //   const chain = new LLMChain({ llm: model, prompt });
-  //   const response = await chain.call({
-  //     context: documents.map((doc) => doc.pageContent),
-  //     question,
-  //   });
+  // const chain = new LLMChain({ llm: model, prompt });
+  // const response = await chain.call({
+  //   context: documents.map((doc) => doc.pageContent),
+  //   question,
+  // });
 
   // Initialize the chain
   const chain = VectorDBQAChain.fromLLM(model, vectorStore, {

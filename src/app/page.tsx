@@ -46,7 +46,6 @@ export default function Home() {
       <div className="p-8 bg-slate-800 rounded-lg">
         <form
           className="space-y-4 w-[36rem]"
-          encType="multipart/form-data"
           action={async (formData) => {
             const { message } = await askQuestion(formData);
             setQuestionResponse(message);
